@@ -1,0 +1,237 @@
+P<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Be My Valentine 💖</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Pacifico', cursive;
+      background: linear-gradient(135deg, #ffe6f0, #ffd6e8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      color: #ff69b4;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px #ffc0cb;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .floating {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      animation: float 6s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(180deg); }
+      100% { transform: translateY(0) rotate(360deg); }
+    }
+
+    .button-container {
+      margin-top: 40px;
+    }
+
+    button {
+      font-size: 1.5rem;
+      padding: 10px 30px;
+      margin: 0 15px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: transform 0.3s, opacity 0.3s;
+      box-shadow: 2px 2px 8px #ffb6c1;
+    }
+
+    #yes {
+      background-color: #ff69b4;
+      color: white;
+    }
+
+    #no {
+      background-color: #ffb6c1;
+      color: white;
+    }
+
+    #message {
+      margin-top: 30px;
+      font-size: 2rem;
+      color: #ff1493;
+      opacity: 0;
+      transition: opacity 1s;
+    }
+
+    /* Hearts */
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff69b4;
+      transform: rotate(-45deg);
+      animation: heart-float 6s infinite;
+      pointer-events: none;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff69b4;
+      border-radius: 50%;
+    }
+
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { top: 0; left: 10px; }
+
+    @keyframes heart-float {
+      0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+      50% { transform: translateY(-120px) rotate(-45deg); opacity: 0.7; }
+      100% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+    }
+
+    /* Bows */
+    .bow {
+      position: absolute;
+      width: 30px;
+      height: 15px;
+      background-color: #ff69b4;
+      border-radius: 10px;
+      transform: rotate(45deg);
+      animation: bow-float 7s infinite;
+      pointer-events: none;
+    }
+
+    .bow::before,
+    .bow::after {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background-color: #ff1493;
+      border-radius: 50%;
+    }
+
+    .bow::before { left: -15px; top: 0; }
+    .bow::after { left: 30px; top: 0; }
+
+    @keyframes bow-float {
+      0% { transform: translateY(0) rotate(45deg); }
+      50% { transform: translateY(-50px) rotate(45deg); }
+      100% { transform: translateY(0) rotate(45deg); }
+    }
+
+    /* Confetti explosion */
+    .confetti {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background-color: #ff69b4;
+      opacity: 0.8;
+      transform: rotate(45deg);
+      animation: confetti-fall 3s forwards;
+    }
+
+    @keyframes confetti-fall {
+      0% { transform: translate(0,0) rotate(0deg); opacity: 1; }
+      100% { transform: translate(var(--x), var(--y)) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌸 Daisianne, will you be my Valentine? 🌸</h1>
+
+  <div class="button-container">
+    <button id="yes">Yes 💖</button>
+    <button id="no">No 😢</button>
+  </div>
+
+  <div id="message">Yay! I’m so happy! 💕</div>
+
+  <!-- Background Music -->
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_a2f7b98c7f.mp3?filename=cute-romantic-piano-11263.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Create floating flowers, hearts, bows
+    function createFloatingElements(className, count) {
+      for(let i=0; i<count; i++){
+        const elem = document.createElement('div');
+        elem.className = className;
+        elem.style.left = Math.random() * window.innerWidth + 'px';
+        elem.style.top = Math.random() * window.innerHeight + 'px';
+        elem.style.animationDuration = (4 + Math.random()*4) + 's';
+        document.body.appendChild(elem);
+      }
+    }
+
+    createFloatingElements('floating', 20); // flowers
+    createFloatingElements('heart', 15);    // hearts
+    createFloatingElements('bow', 10);      // bows
+
+    const yesBtn = document.getElementById('yes');
+    const noBtn = document.getElementById('no');
+    const message = document.getElementById('message');
+
+    // Yes button click
+    yesBtn.addEventListener('click', () => {
+      message.style.opacity = 1;
+      yesBtn.style.display = 'none';
+      noBtn.style.display = 'none';
+      explodeConfetti();
+    });
+
+    // No button shrink effect
+    let noSize = 100;
+    noBtn.addEventListener('click', () => {
+      noSize -= 20;
+      if(noSize <= 0){
+        noBtn.style.display = 'none';
+      } else {
+        noBtn.style.width = noSize + 'px';
+        noBtn.style.height = noSize/2 + 'px';
+        noBtn.style.fontSize = noSize/10 + 'rem';
+      }
+    });
+
+    // Confetti explosion
+    function explodeConfetti() {
+      for(let i=0; i<100; i++){
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = window.innerWidth/2 + 'px';
+        confetti.style.top = window.innerHeight/2 + 'px';
+        confetti.style.setProperty('--x', (Math.random()*600 - 300) + 'px');
+        confetti.style.setProperty('--y', (Math.random()*600 - 300) + 'px');
+        confetti.style.backgroundColor = `hsl(${Math.random()*360}, 80%, 70%)`;
+        document.body.appendChild(confetti);
+        setTimeout(() => { confetti.remove(); }, 3000);
+      }
+    }
+  </script>
+</body>
+</html>
